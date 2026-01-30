@@ -11,6 +11,7 @@ use App\Filament\Resources\Subscriptions\Schemas\SubscriptionInfolist;
 use App\Filament\Resources\Subscriptions\Tables\SubscriptionsTable;
 use App\Models\Subscription;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -25,6 +26,13 @@ class SubscriptionResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ArrowPathRoundedSquare;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Platform';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function getEloquentQuery(): Builder
     {
