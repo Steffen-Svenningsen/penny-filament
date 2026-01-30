@@ -6,6 +6,8 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Enums\ThemeMode;
 use Filament\Pages\Dashboard;
+use App\Livewire\CreateShortcut;
+use App\Livewire\SubscriptionOverview;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
@@ -29,6 +31,7 @@ class AppPanelProvider extends PanelProvider
             ->default()
             ->id('app')
             ->path('')
+            ->spa()
             ->viteTheme('resources/css/filament/app/theme.css')
             ->defaultThemeMode(ThemeMode::Light)
             ->login()
@@ -44,7 +47,8 @@ class AppPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                CreateShortcut::class,
+                SubscriptionOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,
