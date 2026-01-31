@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionForm
 {
@@ -21,7 +22,7 @@ class SubscriptionForm
                     ->required()
                     ->numeric()
                     ->minValue(0)
-                    ->prefix('$'),
+                    ->prefix(fn () => Auth::user()->currency),
                 DatePicker::make('bill_date')
                     ->required()
                     ->default(today())

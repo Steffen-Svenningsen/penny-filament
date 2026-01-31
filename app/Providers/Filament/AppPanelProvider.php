@@ -4,15 +4,19 @@ namespace App\Providers\Filament;
 
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Actions\Action;
 use Filament\Enums\ThemeMode;
 use Filament\Pages\Dashboard;
 use App\Livewire\CreateShortcut;
-use App\Livewire\SubscriptionOverview;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
+use Illuminate\Support\Facades\Auth;
+use App\Livewire\SubscriptionOverview;
+use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
+use App\Livewire\CurrencySettingsComponent;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -20,9 +24,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 
 class AppPanelProvider extends PanelProvider
@@ -52,11 +56,20 @@ class AppPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentEditProfilePlugin::make()
-                ->slug('my-profile')
-                ->setTitle('My Profile')
-                ->setNavigationLabel('My Profile')
-                ->setNavigationGroup('Account')
-                ->setIcon('heroicon-o-user'),
+                    ->slug('my-profile')
+                    ->setTitle('My Profile')
+                    ->setNavigationLabel('My Profile')
+                    ->setNavigationGroup('Account')
+                    ->setIcon('heroicon-o-user')
+                    ->customProfileComponents([
+                        CurrencySettingsComponent::class,
+                    ])
+            ])
+            ->userMenuItems([
+                'profile' => Action::make('profile')
+                    ->label(fn () => Auth::user()->name)
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-o-user-circle'),
             ])
             ->middleware([
                 EncryptCookies::class,

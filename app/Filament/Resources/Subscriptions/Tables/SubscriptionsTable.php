@@ -9,6 +9,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionsTable
 {
@@ -17,18 +18,21 @@ class SubscriptionsTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('price')
-                    ->money()
+                    ->money(fn () => Auth::user()->currency)
                     ->sortable(),
                 TextColumn::make('bill_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('formatted_cycle')
                     ->label('Cycle')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 IconColumn::make('status')
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

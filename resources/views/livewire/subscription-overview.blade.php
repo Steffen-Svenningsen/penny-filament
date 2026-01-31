@@ -219,7 +219,7 @@
             <div class="subscription-overview-wrapper">
                 <div>
                     <p>{{ __('Total Expense') }}</p>
-                    <strong>{{ $this->totalExpense }}</strong>
+                    <strong>{{ $this->totalExpense }} <span>{{ auth()->user()->currency }}</span></strong>
                 </div>
             </div>
             <div class="separator"></div>
@@ -236,7 +236,7 @@
                             <div class="subscription-card-info">
                                 <div class="subscription-card-row">
                                     <span class="subscription-card-label">{{ __('Price') }}</span>
-                                    <span class="subscription-card-value">{{ number_format($subscription->price, 2) }}</span>
+                                    <span class="subscription-card-value">{{ number_format($subscription->price, 2) }} <span>{{ auth()->user()->currency }}</span></span>
                                 </div>
                                 <div class="subscription-card-row">
                                     <span class="subscription-card-label">{{ __('Cycle') }}</span>
