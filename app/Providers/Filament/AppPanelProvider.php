@@ -42,6 +42,8 @@ class AppPanelProvider extends PanelProvider
             ->defaultThemeMode(ThemeMode::Light)
             ->login()
             ->registration()
+            ->brandLogo(asset('penny_logo.svg'))
+            ->brandLogoHeight('2.5rem')
             ->colors([
                 'primary' => Color::Indigo,
             ])
