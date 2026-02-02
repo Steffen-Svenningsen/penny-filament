@@ -31,7 +31,15 @@ class SubscriptionResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        $query = parent::getEloquentQuery();
+
+        $user = Auth::user();
+
+        if ($user) {
+            $query->where('user_id', $user->id);
+        }
+
+        return (string) $query->count();
     }
 
     public static function getEloquentQuery(): Builder
