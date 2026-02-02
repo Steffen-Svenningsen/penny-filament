@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,14 +26,17 @@ class SubscriptionsTable
                     ->sortable(),
                 TextColumn::make('bill_date')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('formatted_cycle')
                     ->label('Cycle')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 IconColumn::make('status')
                     ->boolean()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -42,9 +46,23 @@ class SubscriptionsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->reorderableColumns()
+            ->deferColumnManager(false)
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        1 => 'Active',
+                        0 => 'Inactive',
+                    ]),
+                SelectFilter::make('cycle')
+                    ->options([
+                        'monthly' => 'Monthly',
+                        'yearly' => 'Yearly',
+                        'weekly' => 'Weekly',
+                        'daily' => 'Daily',
+                    ]),
             ])
+            ->deferFilters(false)
             ->recordUrl(function ($record) {
                 return route('filament.app.resources.subscriptions.view', $record);
             })

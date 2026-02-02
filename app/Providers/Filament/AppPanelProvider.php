@@ -42,6 +42,7 @@ class AppPanelProvider extends PanelProvider
             ->defaultThemeMode(ThemeMode::Light)
             ->login()
             ->registration()
+            ->favicon(asset('favicon.svg'))
             ->brandLogo(asset('penny_logo.svg'))
             ->brandLogoHeight('2.5rem')
             ->colors([
@@ -87,6 +88,10 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): string => '<link rel="manifest" href="/manifest.json">',
+            )
             ->viteTheme('resources/css/filament/app/theme.css');
     }
 }
