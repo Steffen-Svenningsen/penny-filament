@@ -6,6 +6,7 @@ use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionInfolist
 {
@@ -19,7 +20,7 @@ class SubscriptionInfolist
                     ->components([
                         TextEntry::make('name'),
                         TextEntry::make('price')
-                            ->money(),
+                            ->money(fn () => Auth::user()->currency),
                         TextEntry::make('bill_date')
                             ->date(),
                         TextEntry::make('formatted_cycle')
