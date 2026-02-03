@@ -31,6 +31,7 @@ class SubscriptionInfolist
                 Section::make()
                     ->heading('Additional Information')
                     ->columnSpanFull()
+                    ->collapsed()
                     ->components([
                         TextEntry::make('created_at')
                             ->dateTime()
